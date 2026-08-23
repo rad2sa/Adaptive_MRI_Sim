@@ -55,7 +55,7 @@ body {
 
 .logo {
 
-    font-size: 20px;
+    font-size: 40px;
 
     font-weight: bold;
 
@@ -71,6 +71,37 @@ body {
     font-size: 13px;
 
     color: #888;
+}
+
+.header-logo {
+
+    height: 120px;
+
+    width: auto;
+
+    display: block;
+
+    background: #929191;
+
+    padding: 6px 10px;
+
+    border-radius: 4px;
+}
+
+.main-viewer-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.main-viewer-row .grid {
+
+    flex: 1;
 }
 
 
@@ -241,12 +272,9 @@ body {
 <div class="header">
 
     <div class="logo">
-        MRI SIM
+        MRI SIMULATOR
     </div>
 
-    <div class="subtitle">
-        Teaching tools index
-    </div>
 
 </div>
 
@@ -258,19 +286,29 @@ body {
         Main viewer
     </div>
 
-    <div class="grid">
+    <div class="main-viewer-row">
 
-        <a class="card" href="mri_viewer.html">
+        <div class="grid">
 
-            <span class="card-arrow">→</span>
+            <a class="card" href="mri_viewer.html">
 
-
-            <div class="card-title">
-                MRI Viewer
-            </div>
+                <span class="card-arrow">→</span>
 
 
-        </a>
+                <div class="card-title">
+                    MRI Viewer
+                </div>
+
+
+            </a>
+
+        </div>
+
+        <img
+            class="header-logo"
+            src="logo.png"
+            alt="Logo"
+        >
 
     </div>
 
