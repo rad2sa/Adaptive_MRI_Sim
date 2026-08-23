@@ -1,0 +1,80 @@
+{
+    "simulator": {
+        "name": "MRI SIM",
+        "phase": "1A",
+        "version": "0.1"
+    },
+    "dataset": {
+        "id": "T1",
+        "sequence": "T1",
+        "description": "3D sagittal T1-weighted brain MRI",
+        "is_3d": true
+    },
+    "orientation": {
+        "source_orientation": "RAS",
+        "canonical_orientation": "RAS",
+        "native_acquisition_plane": "sagittal"
+    },
+    "geometry": {
+        "dimensions": [
+            176,
+            248,
+            256
+        ],
+        "voxel_size_mm": [
+            1.100000023841858,
+            1.0,
+            1.0
+        ],
+        "number_of_voxels": 11173888
+    },
+    "intensity": {
+        "original_dtype": "float32",
+        "original_min": 0.0,
+        "original_max": 996.0,
+        "display_low_percentile": 0.5,
+        "display_high_percentile": 99.5,
+        "display_low": 1.0,
+        "display_high": 535.0,
+        "normalized_range": [
+            0.0,
+            1.0
+        ]
+    },
+    "files": {
+        "normalized_volume": "T1_normalized_float32.npy",
+        "original_volume": "T1_original_float32.npy",
+        "source_json": "T1_source_metadata.json"
+    },
+    "available_views": [
+        "sagittal",
+        "coronal",
+        "axial"
+    ],
+    "acquisition_parameters": {
+        "field_strength_T": 3,
+        "manufacturer": "Siemens",
+        "scanner_model": "MAGNETOM Skyra",
+        "acquisition_type": "3D",
+        "series_description": "3D T1 SAG MORPHO",
+        "protocol_name": "3D T1 SAG MORPHO",
+        "scanning_sequence": "GR\\IR",
+        "pulse_sequence": "*tfl3d1_176ns",
+        "TR": 2.3,
+        "TE": 0.00298,
+        "TI": 0.9,
+        "flip_angle": 9,
+        "slice_thickness_mm": 1.1,
+        "base_resolution": 256,
+        "phase_encoding_steps": 248,
+        "frequency_encoding_steps": 256,
+        "parallel_reduction_factor": 2,
+        "acquisition_duration_s": 309.45,
+        "pixel_bandwidth_Hz_per_pixel": 238
+    },
+    "generated_views": {
+        "sagittal": 176,
+        "coronal": 248,
+        "axial": 256
+    }
+}

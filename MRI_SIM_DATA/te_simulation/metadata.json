@@ -1,0 +1,55 @@
+{
+  "module": "TE Impact on T2-weighted Contrast",
+  "dataset": "Axial T2-weighted MRI (simulated TE series)",
+  "sequence": "T2-weighted (TE varied, TR fixed)",
+  "plane": "axial",
+  "source_file": "Axial_T2.nii",
+  "field_of_view_mm": 220.0,
+  "held_constant": {
+    "TR_ms": 5000
+  },
+  "reference_acquisition": {
+    "TR_ms": 5000,
+    "TE_ms": 100
+  },
+  "tissue_relaxation_assumptions_ms": {
+    "CSF": {
+      "T1": 4000,
+      "T2": 2000
+    },
+    "GM": {
+      "T1": 950,
+      "T2": 100
+    },
+    "WM": {
+      "T1": 600,
+      "T2": 80
+    }
+  },
+  "te_values_ms": [
+    20,
+    50,
+    100,
+    250
+  ],
+  "source_slices": 32,
+  "simulations": {
+    "20": {
+      "TE_ms": 20,
+      "TR_ms": 5000
+    },
+    "50": {
+      "TE_ms": 50,
+      "TR_ms": 5000
+    },
+    "100": {
+      "TE_ms": 100,
+      "TR_ms": 5000
+    },
+    "250": {
+      "TE_ms": 250,
+      "TR_ms": 5000
+    }
+  },
+  "disclaimer": "Simplified educational approximation. Generated from a single conventional T2-weighted image via 3-class tissue segmentation (CSF / GM / WM) and typical literature T2 values, not from a measured quantitative T2 map. Intended to demonstrate the direction and character of TE-driven contrast change, not to be diagnostically accurate."
+}

@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>MRI SIM — Phase 2A Resolution Simulation</title>
+
+
+<style>
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    background: #111;
+
+    color: #ddd;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+
+    height: 60px;
+
+    background: #1d1d1d;
+
+    border-bottom: 1px solid #444;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 20px;
+}
+
+.logo {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    color: #eee;
+}
+
+.subtitle {
+
+    margin-left: 15px;
+
+    font-size: 13px;
+
+    color: #888;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.main {
+
+    display: grid;
+
+    grid-template-columns:
+        240px
+        1fr
+        330px;
+
+    height:
+        calc(100vh - 60px);
+}
+
+
+/* =========================================================
+   LEFT PANEL
+   ========================================================= */
+
+.left-panel {
+
+    background: #191919;
+
+    border-right:
+        1px solid #444;
+
+    padding: 18px;
+
+    overflow-y: auto;
+}
+
+.section-title {
+
+    font-size: 12px;
+
+    color: #999;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 10px;
+}
+
+.control-group {
+
+    margin-bottom: 20px;
+}
+
+button {
+
+    width: 100%;
+
+    background: #303030;
+
+    color: #ddd;
+
+    border:
+        1px solid #555;
+
+    padding: 8px;
+
+    border-radius: 3px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+}
+
+button:hover {
+
+    background: #3b3b3b;
+}
+
+.matrix-buttons {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.matrix-buttons button {
+
+    text-align: left;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.matrix-buttons button.active {
+
+    background: #555;
+
+    border-color: #888;
+}
+
+.matrix-tag {
+
+    font-size: 10px;
+
+    letter-spacing: 0.5px;
+
+    padding: 2px 6px;
+
+    border-radius: 3px;
+
+    background: #1d1d1d;
+
+    color: #999;
+}
+
+.tag-LOW {
+    color: #e8a33d;
+}
+
+.tag-MEDIUM {
+    color: #d9d95a;
+}
+
+.tag-HIGH {
+    color: #6fd97a;
+}
+
+.mode-toggle {
+
+    display: flex;
+
+    gap: 6px;
+}
+
+.mode-toggle button {
+
+    flex: 1;
+}
+
+.mode-toggle button.active {
+
+    background: #555;
+
+    border-color: #888;
+}
+
+.slider-label {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    font-size: 12px;
+
+    margin-bottom: 5px;
+}
+
+input[type="range"] {
+
+    width: 100%;
+
+    accent-color: #aaa;
+}
+
+.hint {
+
+    font-size: 11px;
+
+    color: #777;
+
+    line-height: 1.5;
+
+    margin-top: 4px;
+}
+
+
+/* =========================================================
+   VIEWER
+   ========================================================= */
+
+.viewer {
+
+    background: #000;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: stretch;
+
+    justify-content: center;
+
+    padding: 16px;
+
+    gap: 12px;
+}
+
+.panel {
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: #050505;
+
+    border: 1px solid #2a2a2a;
+
+    border-radius: 4px;
+
+    overflow: hidden;
+
+    min-width: 0;
+}
+
+.panel-header {
+
+    padding: 8px 12px;
+
+    background: #161616;
+
+    border-bottom: 1px solid #2a2a2a;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: baseline;
+
+    font-family: monospace;
+
+    font-size: 12px;
+}
+
+.panel-header .matrix-name {
+
+    color: #eee;
+
+    font-weight: bold;
+
+    font-size: 13px;
+}
+
+.panel-header .pixel-size {
+
+    color: #888;
+}
+
+.panel-image-wrap {
+
+    position: relative;
+
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.panel-image-wrap img {
+
+    /*
+     * Fixed display box, independent of native
+     * pixel size, so 96x96 / 192x192 / 384x384
+     * all render at the SAME on-screen size —
+     * only sharpness should visibly differ.
+     * (max-width/max-height alone would let a
+     * small native image display at its tiny
+     * native size instead of filling the panel.)
+     */
+
+    width: 82%;
+
+    height: 82%;
+
+    object-fit: contain;
+
+    image-rendering: pixelated;
+
+    user-select: none;
+
+    pointer-events: none;
+}
+
+/* Native / highest matrix keeps smooth rendering,
+   since pixelation there is a rendering artifact,
+   not part of the simulation. */
+
+.panel[data-matrix="384"] .panel-image-wrap img {
+
+    image-rendering: auto;
+}
+
+.panel-footer {
+
+    padding: 6px 12px;
+
+    background: #161616;
+
+    border-top: 1px solid #2a2a2a;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    color: #888;
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.loading {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RIGHT PANEL
+   ========================================================= */
+
+.right-panel {
+
+    background: #191919;
+
+    border-left:
+        1px solid #444;
+
+    padding: 18px;
+
+    overflow-y: auto;
+}
+
+table.compare-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 12px;
+
+    margin-bottom: 20px;
+}
+
+table.compare-table th,
+table.compare-table td {
+
+    padding: 7px 6px;
+
+    border-bottom: 1px solid #292929;
+
+    text-align: left;
+}
+
+table.compare-table th {
+
+    color: #888;
+
+    font-weight: normal;
+
+    text-transform: uppercase;
+
+    font-size: 10px;
+
+    letter-spacing: 0.5px;
+}
+
+table.compare-table td {
+
+    color: #ddd;
+}
+
+table.compare-table tr.row-active td {
+
+    color: #fff;
+
+    background: rgba(255,255,255,0.04);
+}
+
+.info-row {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    padding:
+        7px 0;
+
+    border-bottom:
+        1px solid #292929;
+
+    font-size: 13px;
+}
+
+.info-label {
+
+    color: #888;
+}
+
+.info-value {
+
+    color: #ddd;
+
+    text-align: right;
+
+    max-width: 190px;
+}
+
+.note-box {
+
+    margin-top: 4px;
+
+    padding: 10px 12px;
+
+    background: #1d1d1d;
+
+    border: 1px solid #333;
+
+    border-radius: 4px;
+
+    font-size: 12px;
+
+    color: #aaa;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width: 1100px) {
+
+    .main {
+
+        grid-template-columns:
+            210px
+            1fr;
+    }
+
+    .right-panel {
+
+        display: none;
+    }
+}
+
+@media(max-width: 800px) {
+
+    .viewer {
+
+        flex-direction: column;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     HEADER
+     ======================================================= -->
+
+<div class="header">
+
+    <div class="logo">
+        MRI SIM
+    </div>
+
+    <div class="subtitle">
+        Phase 2A — Image Resolution Simulation
+    </div>
+
+</div>
+
+
+
+<!-- =======================================================
+     MAIN
+     ======================================================= -->
+
+<div class="main">
+
+
+<!-- =======================================================
+     LEFT PANEL
+     ======================================================= -->
+
+<div class="left-panel">
+
+
+    <div class="section-title">
+        View mode
+    </div>
+
+    <div class="control-group">
+
+        <div class="mode-toggle">
+
+            <button
+                id="compareModeBtn"
+                class="active"
+                onclick="setMode('compare')">
+
+                Compare all
+
+            </button>
+
+            <button
+                id="singleModeBtn"
+                onclick="setMode('single')">
+
+                Single
+
+            </button>
+
+        </div>
+
+        <div class="hint">
+            Compare shows 96 × 96, 192 × 192 and
+            384 × 384 side by side at the same slice
+            and the same field of view.
+        </div>
+
+    </div>
+
+
+    <div class="section-title" id="matrixSectionTitle">
+        Matrix (single view)
+    </div>
+
+    <div class="control-group">
+
+        <div
+            class="matrix-buttons"
+            id="matrixButtons">
+
+            <!-- populated from metadata -->
+
+        </div>
+
+    </div>
+
+
+
+    <div class="section-title">
+        Slice
+    </div>
+
+
+    <div class="control-group">
+
+        <div class="slider-label">
+
+            <span>
+                Slice
+            </span>
+
+            <span id="sliceNumber">
+                -
+            </span>
+
+        </div>
+
+
+        <input
+            id="sliceSlider"
+            type="range"
+            min="1"
+            max="1"
+            value="1"
+            oninput="updateSlice()"
+        >
+
+        <div class="hint">
+            All panels share the same slice index,
+            since the matrix simulation only changes
+            in-plane sampling, not slice position.
+        </div>
+
+    </div>
+
+
+
+    <div class="control-group">
+
+        <button
+            onclick="previousSlice()">
+
+            ◀ Previous
+
+        </button>
+
+
+        <br><br>
+
+
+        <button
+            onclick="nextSlice()">
+
+            Next ▶
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =======================================================
+     IMAGE VIEWER
+     ======================================================= -->
+
+<div
+    class="viewer"
+    id="viewer"
+>
+
+    <!-- panels injected by JS -->
+
+</div>
+
+
+
+<!-- =======================================================
+     RIGHT PANEL
+     ======================================================= -->
+
+<div class="right-panel">
+
+
+    <div class="section-title">
+        Dataset
+    </div>
+
+    <div class="info-row">
+
+        <span class="info-label">
+            Sequence
+        </span>
+
+        <span
+            class="info-value"
+            id="sequence">
+
+            -
+
+        </span>
+
+    </div>
+
+    <div class="info-row">
+
+        <span class="info-label">
+            Plane
+        </span>
+
+        <span
+            class="info-value"
+            id="plane">
+
+            -
+
+        </span>
+
+    </div>
+
+    <div class="info-row">
+
+        <span class="info-label">
+            Field of view
+        </span>
+
+        <span
+            class="info-value"
+            id="fov">
+
+            -
+
+        </span>
+
+    </div>
+
+    <div class="info-row">
+
+        <span class="info-label">
+            Source acquisition
+        </span>
+
+        <span
+            class="info-value"
+            id="sourceAcquisition">
+
+            -
+
+        </span>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="section-title">
+        Matrix comparison
+    </div>
+
+    <table class="compare-table" id="compareTable">
+
+        <thead>
+
+            <tr>
+
+                <th>Matrix</th>
+
+                <th>FOV</th>
+
+                <th>Pixel</th>
+
+                <th>Level</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="compareTableBody">
+
+            <!-- populated from metadata -->
+
+        </tbody>
+
+    </table>
+
+    <div
+        class="note-box"
+        id="interpretationNote">
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================================
+   CONFIGURATION
+   ========================================================= */
+
+const DATA_ROOT =
+    "MRI_SIM_DATA/resolution_simulation";
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+let metadata =
+    null;
+
+let currentSlice =
+    1;
+
+let currentMode =
+    "compare";
+
+let currentMatrix =
+    null;
+
+// Order LOW -> HIGH for display, driven by metadata.matrices
+let matrixOrder =
+    [];
+
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+const sliceSlider =
+    document.getElementById(
+        "sliceSlider"
+    );
+
+const viewer =
+    document.getElementById(
+        "viewer"
+    );
+
+const matrixButtons =
+    document.getElementById(
+        "matrixButtons"
+    );
+
+const matrixSectionTitle =
+    document.getElementById(
+        "matrixSectionTitle"
+    );
+
+
+/* =========================================================
+   LOAD METADATA
+   ========================================================= */
+
+async function loadMetadata() {
+
+    showViewerMessage(
+        "Loading dataset..."
+    );
+
+    try {
+
+        const response =
+            await fetch(
+                `${DATA_ROOT}/metadata.json`
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Metadata could not be loaded."
+            );
+
+        }
+
+        metadata =
+            await response.json();
+
+        matrixOrder =
+            [...metadata.matrices]
+                .sort((a, b) => a - b);
+
+        currentMatrix =
+            matrixOrder[
+                matrixOrder.length - 1
+            ];
+
+        buildMatrixButtons();
+
+        updateDatasetPanel();
+
+        buildCompareTable();
+
+        setupSliceSlider();
+
+        renderPanels();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        showViewerMessage(
+            "Could not load metadata. " +
+            "Check that MRI_SIM_DATA/resolution_simulation/" +
+            "metadata.json is reachable from this page."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   MODE
+   ========================================================= */
+
+function setMode(mode) {
+
+    currentMode = mode;
+
+    document.getElementById(
+        "compareModeBtn"
+    ).classList.toggle(
+        "active",
+        mode === "compare"
+    );
+
+    document.getElementById(
+        "singleModeBtn"
+    ).classList.toggle(
+        "active",
+        mode === "single"
+    );
+
+    matrixSectionTitle.style.opacity =
+        mode === "single" ? "1" : "0.4";
+
+    matrixButtons.style.opacity =
+        mode === "single" ? "1" : "0.4";
+
+    matrixButtons.style.pointerEvents =
+        mode === "single" ? "auto" : "none";
+
+    renderPanels();
+
+}
+
+
+/* =========================================================
+   MATRIX BUTTONS (single mode selector)
+   ========================================================= */
+
+function buildMatrixButtons() {
+
+    matrixButtons.innerHTML = "";
+
+    matrixOrder.forEach(function(matrix) {
+
+        const sim =
+            metadata.simulations[
+                String(matrix)
+            ];
+
+        const btn =
+            document.createElement("button");
+
+        btn.id =
+            `matrixBtn_${matrix}`;
+
+        btn.onclick =
+            function() {
+
+                currentMatrix = matrix;
+
+                buildMatrixButtons();
+
+                renderPanels();
+
+            };
+
+        if (matrix === currentMatrix) {
+
+            btn.classList.add("active");
+
+        }
+
+        btn.innerHTML =
+            `<span>${matrix} × ${matrix}</span>` +
+            `<span class="matrix-tag tag-${sim.spatial_resolution.replace('*','')}">` +
+            `${sim.spatial_resolution.replace('*','')}</span>`;
+
+        matrixButtons.appendChild(btn);
+
+    });
+
+    matrixSectionTitle.style.opacity =
+        currentMode === "single" ? "1" : "0.4";
+
+    matrixButtons.style.opacity =
+        currentMode === "single" ? "1" : "0.4";
+
+    matrixButtons.style.pointerEvents =
+        currentMode === "single" ? "auto" : "none";
+
+}
+
+
+/* =========================================================
+   SLICE SLIDER
+   ========================================================= */
+
+function setupSliceSlider() {
+
+    const numberOfSlices =
+        metadata.source_slices;
+
+    sliceSlider.min = 1;
+
+    sliceSlider.max = numberOfSlices;
+
+    sliceSlider.value =
+        Math.ceil(numberOfSlices / 2);
+
+    currentSlice =
+        Number(sliceSlider.value);
+
+    updateSliceLabel();
+
+}
+
+function updateSlice() {
+
+    currentSlice =
+        Number(sliceSlider.value);
+
+    updateSliceLabel();
+
+    renderPanels();
+
+}
+
+function updateSliceLabel() {
+
+    const max =
+        Number(sliceSlider.max);
+
+    document.getElementById(
+        "sliceNumber"
+    ).textContent =
+        `${currentSlice} / ${max}`;
+
+}
+
+function nextSlice() {
+
+    const max =
+        Number(sliceSlider.max);
+
+    if (currentSlice < max) {
+
+        currentSlice++;
+
+        sliceSlider.value =
+            currentSlice;
+
+        updateSlice();
+
+    }
+
+}
+
+function previousSlice() {
+
+    if (currentSlice > 1) {
+
+        currentSlice--;
+
+        sliceSlider.value =
+            currentSlice;
+
+        updateSlice();
+
+    }
+
+}
+
+
+/* =========================================================
+   PANEL RENDERING
+   ========================================================= */
+
+function renderPanels() {
+
+    if (!metadata) return;
+
+    viewer.innerHTML = "";
+
+    const matricesToShow =
+        currentMode === "compare"
+        ? matrixOrder
+        : [currentMatrix];
+
+    matricesToShow.forEach(function(matrix) {
+
+        viewer.appendChild(
+            buildPanel(matrix)
+        );
+
+    });
+
+    highlightCompareTable(matricesToShow);
+
+}
+
+function highlightCompareTable(activeMatrices) {
+
+    matrixOrder.forEach(function(matrix) {
+
+        const row =
+            document.getElementById(
+                `compareRow_${matrix}`
+            );
+
+        if (!row) return;
+
+        row.classList.toggle(
+            "row-active",
+            activeMatrices.includes(matrix)
+        );
+
+    });
+
+}
+
+function buildPanel(matrix) {
+
+    const sim =
+        metadata.simulations[
+            String(matrix)
+        ];
+
+    const panel =
+        document.createElement("div");
+
+    panel.className = "panel";
+
+    panel.dataset.matrix = matrix;
+
+    const filename =
+        `slice_${String(currentSlice).padStart(3, "0")}.png`;
+
+    const imagePath =
+        `${DATA_ROOT}/matrix_${matrix}/${filename}`;
+
+    panel.innerHTML = `
+
+        <div class="panel-header">
+
+            <span class="matrix-name">
+                ${matrix} × ${matrix}
+            </span>
+
+            <span class="pixel-size">
+                ${sim.pixel_size_mm.toFixed(3)} mm / px
+            </span>
+
+        </div>
+
+        <div class="panel-image-wrap">
+
+            <img alt="MRI ${matrix} matrix" />
+
+            <div class="loading">
+                Loading...
+            </div>
+
+        </div>
+
+        <div class="panel-footer">
+            ${sim.spatial_resolution.replace('*','')}
+            &nbsp;·&nbsp;
+            ${sim.interpolation}
+        </div>
+
+    `;
+
+    const img =
+        panel.querySelector("img");
+
+    const loading =
+        panel.querySelector(".loading");
+
+    img.onload = function() {
+
+        loading.style.display = "none";
+
+    };
+
+    img.onerror = function() {
+
+        loading.textContent =
+            "Image not found";
+
+    };
+
+    img.src = imagePath;
+
+    return panel;
+
+}
+
+function showViewerMessage(message) {
+
+    viewer.innerHTML =
+        `<div class="loading">${message}</div>`;
+
+}
+
+
+/* =========================================================
+   DATASET PANEL
+   ========================================================= */
+
+function updateDatasetPanel() {
+
+    setText(
+        "sequence",
+        metadata.sequence
+    );
+
+    setText(
+        "plane",
+        metadata.plane
+    );
+
+    setText(
+        "fov",
+        `${metadata.field_of_view_mm.toFixed(1)} mm`
+    );
+
+    setText(
+        "sourceAcquisition",
+        `${metadata.source_matrix.join(" × ")} ` +
+        `(${metadata.source_pixel_size_mm[0].toFixed(3)} mm)`
+    );
+
+}
+
+
+/* =========================================================
+   COMPARE TABLE
+   ========================================================= */
+
+function buildCompareTable() {
+
+    const body =
+        document.getElementById(
+            "compareTableBody"
+        );
+
+    body.innerHTML = "";
+
+    matrixOrder.forEach(function(matrix) {
+
+        const sim =
+            metadata.simulations[
+                String(matrix)
+            ];
+
+        const row =
+            document.createElement("tr");
+
+        row.id = `compareRow_${matrix}`;
+
+        row.innerHTML = `
+
+            <td>${matrix} × ${matrix}</td>
+
+            <td>~${metadata.field_of_view_mm.toFixed(0)} mm</td>
+
+            <td>~${sim.pixel_size_mm.toFixed(2)} mm</td>
+
+            <td>${sim.spatial_resolution.replace('*','')}</td>
+
+        `;
+
+        body.appendChild(row);
+
+    });
+
+    const note =
+        document.getElementById(
+            "interpretationNote"
+        );
+
+    const highest =
+        matrixOrder[matrixOrder.length - 1];
+
+    note.textContent =
+        metadata.simulations[
+            String(highest)
+        ].source_information_note;
+
+}
+
+
+/* =========================================================
+   MOUSE WHEEL / KEYBOARD
+   ========================================================= */
+
+viewer.addEventListener(
+    "wheel",
+    function(event) {
+
+        event.preventDefault();
+
+        if (event.deltaY > 0) {
+
+            nextSlice();
+
+        } else {
+
+            previousSlice();
+
+        }
+
+    },
+    { passive: false }
+);
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "ArrowUp") {
+
+            previousSlice();
+
+        }
+
+        if (event.key === "ArrowDown") {
+
+            nextSlice();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   HELPER
+   ========================================================= */
+
+function setText(id, value) {
+
+    document.getElementById(id).textContent =
+        value;
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+loadMetadata();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+{
+    "simulator": {
+        "name": "MRI SIM",
+        "phase": "1A",
+        "version": "0.1"
+    },
+    "dataset": {
+        "id": "FLAIR",
+        "sequence": "FLAIR",
+        "description": "3D sagittal FLAIR SPACE brain MRI",
+        "is_3d": true
+    },
+    "orientation": {
+        "source_orientation": "RAS",
+        "canonical_orientation": "RAS",
+        "native_acquisition_plane": "sagittal"
+    },
+    "geometry": {
+        "dimensions": [
+            176,
+            320,
+            320
+        ],
+        "voxel_size_mm": [
+            1.0,
+            0.78125,
+            0.78125
+        ],
+        "number_of_voxels": 18022400
+    },
+    "intensity": {
+        "original_dtype": "float32",
+        "original_min": 0.0,
+        "original_max": 1069.0,
+        "display_low_percentile": 0.5,
+        "display_high_percentile": 99.5,
+        "display_low": 1.0,
+        "display_high": 629.0,
+        "normalized_range": [
+            0.0,
+            1.0
+        ]
+    },
+    "files": {
+        "normalized_volume": "FLAIR_normalized_float32.npy",
+        "original_volume": "FLAIR_original_float32.npy",
+        "source_json": "FLAIR_source_metadata.json"
+    },
+    "available_views": [
+        "sagittal",
+        "coronal",
+        "axial"
+    ],
+    "acquisition_parameters": {
+        "field_strength_T": 3,
+        "manufacturer": "Siemens",
+        "scanner_model": "MAGNETOM Skyra",
+        "acquisition_type": "3D",
+        "series_description": "Flair _space_dark-fluid_sag_cs7",
+        "protocol_name": "Flair _space_dark-fluid_sag_cs7",
+        "scanning_sequence": "SE\\IR",
+        "pulse_sequence": "*spcir_220ns",
+        "TR": 7,
+        "TE": 0.394,
+        "TI": 2.05,
+        "flip_angle": 120,
+        "slice_thickness_mm": 1,
+        "base_resolution": 320,
+        "phase_encoding_steps": 320,
+        "frequency_encoding_steps": 320,
+        "echo_train_length": 220,
+        "acquisition_duration_s": 231.385,
+        "pixel_bandwidth_Hz_per_pixel": 651
+    },
+    "generated_views": {
+        "sagittal": 176,
+        "coronal": 320,
+        "axial": 320
+    }
+}

@@ -1,0 +1,55 @@
+{
+  "module": "TR Impact on T1-weighted Contrast",
+  "dataset": "Axial T1-weighted MRI (simulated TR series)",
+  "sequence": "T1-weighted (TR varied, TE fixed)",
+  "plane": "axial",
+  "source_file": "Axial_T1.nii",
+  "field_of_view_mm": 220.0,
+  "held_constant": {
+    "TE_ms": 20
+  },
+  "reference_acquisition": {
+    "TR_ms": 500,
+    "TE_ms": 20
+  },
+  "tissue_relaxation_assumptions_ms": {
+    "CSF": {
+      "T1": 4000,
+      "T2": 2000
+    },
+    "GM": {
+      "T1": 950,
+      "T2": 100
+    },
+    "WM": {
+      "T1": 600,
+      "T2": 80
+    }
+  },
+  "tr_values_ms": [
+    150,
+    250,
+    400,
+    2000
+  ],
+  "source_slices": 32,
+  "simulations": {
+    "150": {
+      "TR_ms": 150,
+      "TE_ms": 20
+    },
+    "250": {
+      "TR_ms": 250,
+      "TE_ms": 20
+    },
+    "400": {
+      "TR_ms": 400,
+      "TE_ms": 20
+    },
+    "2000": {
+      "TR_ms": 2000,
+      "TE_ms": 20
+    }
+  },
+  "disclaimer": "Simplified educational approximation. Generated from a single conventional T1-weighted image via 3-class tissue segmentation (CSF / GM / WM) and typical literature T1 values, not from a measured quantitative T1 map. Intended to demonstrate the direction and character of TR-driven contrast change, not to be diagnostically accurate."
+}

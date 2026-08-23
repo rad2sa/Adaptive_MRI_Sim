@@ -1,0 +1,54 @@
+{
+  "module": "Image Resolution",
+  "dataset": "Axial T2-weighted MRI",
+  "sequence": "T2-weighted",
+  "plane": "axial",
+  "source_file": "Axial_T2.nii",
+  "source_matrix": [
+    384,
+    384
+  ],
+  "source_pixel_size_mm": [
+    0.572917,
+    0.572917
+  ],
+  "field_of_view_mm": 220.0,
+  "source_slices": 32,
+  "matrices": [
+    96,
+    192,
+    384
+  ],
+  "simulations": {
+    "96": {
+      "matrix": [
+        96,
+        96
+      ],
+      "pixel_size_mm": 2.292,
+      "spatial_resolution": "LOW",
+      "interpolation": "Downsampled from 384 \u00d7 384",
+      "source_information_note": "Fewer pixels than the original acquisition; fine anatomical detail is lost / blurred together."
+    },
+    "192": {
+      "matrix": [
+        192,
+        192
+      ],
+      "pixel_size_mm": 1.146,
+      "spatial_resolution": "MEDIUM",
+      "interpolation": "Downsampled from 384 \u00d7 384",
+      "source_information_note": "Fewer pixels than the original acquisition; fine anatomical detail is lost / blurred together."
+    },
+    "384": {
+      "matrix": [
+        384,
+        384
+      ],
+      "pixel_size_mm": 0.573,
+      "spatial_resolution": "HIGH",
+      "interpolation": "Native acquisition matrix (no resampling)",
+      "source_information_note": "This is the original, highest-resolution image; the other tiers are degraded versions of this one."
+    }
+  }
+}

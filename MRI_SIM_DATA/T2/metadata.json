@@ -1,0 +1,77 @@
+{
+    "simulator": {
+        "name": "MRI SIM",
+        "phase": "1A",
+        "version": "0.1"
+    },
+    "dataset": {
+        "id": "T2",
+        "sequence": "T2",
+        "description": "2D axial T2-weighted TSE brain MRI",
+        "is_3d": false
+    },
+    "orientation": {
+        "source_orientation": "LAS",
+        "canonical_orientation": "RAS",
+        "native_acquisition_plane": "axial"
+    },
+    "geometry": {
+        "dimensions": [
+            384,
+            384,
+            32
+        ],
+        "voxel_size_mm": [
+            0.5729169845581055,
+            0.5729169845581055,
+            5.199999809265137
+        ],
+        "number_of_voxels": 4718592
+    },
+    "intensity": {
+        "original_dtype": "float32",
+        "original_min": 0.0,
+        "original_max": 2212.0,
+        "display_low_percentile": 0.5,
+        "display_high_percentile": 99.5,
+        "display_low": 1.0,
+        "display_high": 1527.0,
+        "normalized_range": [
+            0.0,
+            1.0
+        ]
+    },
+    "files": {
+        "normalized_volume": "T2_normalized_float32.npy",
+        "original_volume": "T2_original_float32.npy",
+        "source_json": "T2_source_metadata.json"
+    },
+    "available_views": [
+        "axial"
+    ],
+    "acquisition_parameters": {
+        "field_strength_T": 3,
+        "manufacturer": "Siemens",
+        "scanner_model": "MAGNETOM Skyra",
+        "acquisition_type": "2D",
+        "series_description": "t2_blade_tra_p2",
+        "protocol_name": "t2_blade_tra_p2",
+        "scanning_sequence": "SE",
+        "pulse_sequence": "*tseBNR2d1_28",
+        "TR": 5,
+        "TE": 0.125,
+        "flip_angle": 90,
+        "slice_thickness_mm": 4,
+        "spacing_between_slices_mm": 5.2,
+        "base_resolution": 384,
+        "phase_encoding_steps": 43,
+        "frequency_encoding_steps": 384,
+        "parallel_reduction_factor": 2,
+        "echo_train_length": 28,
+        "acquisition_duration_s": 165.687,
+        "pixel_bandwidth_Hz_per_pixel": 362
+    },
+    "generated_views": {
+        "axial": 32
+    }
+}

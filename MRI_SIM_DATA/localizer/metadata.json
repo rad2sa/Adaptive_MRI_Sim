@@ -1,0 +1,79 @@
+{
+    "simulator": {
+        "name": "MRI SIM",
+        "phase": "1A",
+        "version": "0.1"
+    },
+    "dataset": {
+        "id": "localizer",
+        "sequence": "LOCALIZER",
+        "description": "3D low-resolution MRI scout/localizer",
+        "is_3d": true
+    },
+    "orientation": {
+        "source_orientation": "RAS",
+        "canonical_orientation": "RAS",
+        "native_acquisition_plane": "3D"
+    },
+    "geometry": {
+        "dimensions": [
+            128,
+            160,
+            160
+        ],
+        "voxel_size_mm": [
+            1.600000023841858,
+            1.625,
+            1.625
+        ],
+        "number_of_voxels": 3276800
+    },
+    "intensity": {
+        "original_dtype": "float32",
+        "original_min": 0.0,
+        "original_max": 613.0,
+        "display_low_percentile": 0.5,
+        "display_high_percentile": 99.5,
+        "display_low": 1.0,
+        "display_high": 416.0,
+        "normalized_range": [
+            0.0,
+            1.0
+        ]
+    },
+    "files": {
+        "normalized_volume": "localizer_normalized_float32.npy",
+        "original_volume": "localizer_original_float32.npy",
+        "source_json": "localizer_source_metadata.json"
+    },
+    "available_views": [
+        "sagittal",
+        "coronal",
+        "axial"
+    ],
+    "acquisition_parameters": {
+        "field_strength_T": 3,
+        "manufacturer": "Siemens",
+        "scanner_model": "MAGNETOM Skyra",
+        "acquisition_type": "3D",
+        "series_description": "Auto loc_64ch ( Pacs ON)",
+        "protocol_name": "Auto loc_64ch ( Pacs ON)",
+        "scanning_sequence": "GR",
+        "pulse_sequence": "*fl3d1_ns",
+        "TR": 0.00315,
+        "TE": 0.00137,
+        "flip_angle": 8,
+        "slice_thickness_mm": 1.6,
+        "base_resolution": 160,
+        "phase_encoding_steps": 160,
+        "frequency_encoding_steps": 160,
+        "parallel_reduction_factor": 3,
+        "acquisition_duration_s": 12.345,
+        "pixel_bandwidth_Hz_per_pixel": 539
+    },
+    "generated_views": {
+        "sagittal": 128,
+        "coronal": 160,
+        "axial": 160
+    }
+}
