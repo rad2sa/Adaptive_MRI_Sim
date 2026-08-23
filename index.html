@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>MRI SIM</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    background: #111;
+
+    color: #ddd;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+
+    height: 60px;
+
+    background: #1d1d1d;
+
+    border-bottom: 1px solid #444;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 20px;
+}
+
+.logo {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    color: #eee;
+}
+
+.subtitle {
+
+    margin-left: 15px;
+
+    font-size: 13px;
+
+    color: #888;
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main {
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 50px 24px 80px;
+}
+
+.intro {
+
+    color: #999;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    max-width: 640px;
+
+    margin-bottom: 40px;
+}
+
+.section-title {
+
+    font-size: 12px;
+
+    color: #777;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin: 36px 0 14px;
+}
+
+.section-title:first-of-type {
+
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   CARD GRID
+   ========================================================= */
+
+.grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(260px, 1fr));
+
+    gap: 16px;
+}
+
+.card {
+
+    display: block;
+
+    background: #363636;
+
+    border: 1px solid #333;
+
+    border-radius: 6px;
+
+    padding: 22px;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.card:hover {
+
+    background: #202020;
+
+    border-color: #666;
+}
+
+.card-tag {
+
+    display: inline-block;
+
+    font-size: 10px;
+
+    letter-spacing: 0.5px;
+
+    text-transform: uppercase;
+
+    color: #999;
+
+    background: #212c7f;
+
+    border: 1px solid #3a3a3a;
+
+    padding: 3px 8px;
+
+    border-radius: 3px;
+
+    margin-bottom: 18px;
+}
+
+.card-title {
+
+    font-size: 17px;
+
+    color: #eee;
+
+    margin-bottom: 8px;
+}
+
+.card-description {
+
+    font-size: 13px;
+
+    color: #999;
+
+    line-height: 1.5;
+
+    margin-bottom: 14px;
+}
+
+.card-file {
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    color: #666;
+}
+
+.card-arrow {
+
+    float: right;
+
+    color: #666;
+
+    font-size: 14px;
+}
+
+.card:hover .card-arrow {
+
+    color: #ccc;
+}
+
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <div class="logo">
+        MRI SIM
+    </div>
+
+    <div class="subtitle">
+        Teaching tools index
+    </div>
+
+</div>
+
+
+<div class="main">
+
+
+    <div class="section-title">
+        Main viewer
+    </div>
+
+    <div class="grid">
+
+        <a class="card" href="mri_viewer.html">
+
+            <span class="card-arrow">→</span>
+
+
+            <div class="card-title">
+                MRI Viewer
+            </div>
+
+
+        </a>
+
+    </div>
+
+
+    <div class="section-title">
+        Imaging Parameters Manipulation
+    </div>
+
+    <div class="grid">
+
+        <a class="card" href="resolution_simulation_viewer.html">
+
+            <span class="card-arrow">→</span>
+
+            <div class="card-title">
+                Image Resolution
+            </div>
+
+
+
+        </a>
+
+        <a class="card" href="te_simulation_viewer.html">
+
+            <span class="card-arrow">→</span>
+
+
+
+            <div class="card-title">
+                TE Simulation
+            </div>
+
+
+
+        </a>
+
+        <a class="card" href="tr_simulation_viewer.html">
+
+            <span class="card-arrow">→</span>
+
+
+            <div class="card-title">
+                TR Simulation
+            </div>
+
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
